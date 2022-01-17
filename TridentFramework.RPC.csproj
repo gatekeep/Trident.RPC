@@ -1,0 +1,338 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{1C415834-785A-491A-87F8-C715EA01E199}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>TridentFramework.RPC</RootNamespace>
+    <AssemblyName>TridentFramework.RPC</AssemblyName>
+    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>TRACE;DEBUG</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(DynamicConstants)' != ''">
+    <DefineConstants>$(DynamicConstants)</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>TRACE;DEBUG</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>packages\Newtonsoft.Json.13.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceProcess" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Remoting\ChannelProxy.cs" />
+    <Compile Include="Http\BodyDecoders\DecodedData.cs" />
+    <Compile Include="Http\BodyDecoders\HttpMultiPart.cs" />
+    <Compile Include="Http\BodyDecoders\IBodyDecoder.cs" />
+    <Compile Include="Http\BodyDecoders\MultiPartDecoder.cs" />
+    <Compile Include="Remoting\IRemotingTypeInfo.cs" />
+    <Compile Include="Remoting\IRPCProxySend.cs" />
+    <Compile Include="JsonObject.cs" />
+    <Compile Include="Remoting\MethodMapper.cs" />
+    <Compile Include="Remoting\Proxies\DispatchProxy.cs" />
+    <Compile Include="Remoting\Proxies\DispatchProxyGenerator.cs" />
+    <Compile Include="Remoting\Proxies\IgnoreAccessChecksToAttributeBuilder.cs" />
+    <Compile Include="RestDoc\DocumentHandler.cs" />
+    <Compile Include="RestDoc\RestDocMethodReturnAttribute.cs" />
+    <Compile Include="RestDoc\RestDocMethodArgAttribute.cs" />
+    <Compile Include="RestDoc\RestDocMethodAttribute.cs" />
+    <Compile Include="RestDoc\RestDocMethodIgnoreAttribute.cs" />
+    <Compile Include="RestMethodAttribute.cs" />
+    <Compile Include="RPCContractAttribute.cs" />
+    <Compile Include="RPCMethodAttribute.cs" />
+    <Compile Include="UriTemplate\UriTemplate.cs" />
+    <Compile Include="UriTemplate\UriTemplateCompoundPathSegment.cs" />
+    <Compile Include="UriTemplate\UriTemplateHelpers.cs" />
+    <Compile Include="UriTemplate\UriTemplateLiteralPathSegment.cs" />
+    <Compile Include="UriTemplate\UriTemplateLiteralQueryValue.cs" />
+    <Compile Include="UriTemplate\UriTemplateMatch.cs" />
+    <Compile Include="UriTemplate\UriTemplatePathSegment.cs" />
+    <Compile Include="UriTemplate\UriTemplateQueryValue.cs" />
+    <Compile Include="UriTemplate\UriTemplateVariablePathSegment.cs" />
+    <Compile Include="UriTemplate\UriTemplateVariableQueryValue.cs" />
+    <Compile Include="UserEndpointHandlerAttribute.cs" />
+    <Compile Include="RestDoc\RestDocServiceAttribute.cs" />
+    <Compile Include="EmptyArray.cs" />
+    <Compile Include="Http\ArrayParameterCollection.cs" />
+    <Compile Include="Http\Authentication\AuthenticationProvider.cs" />
+    <Compile Include="Http\Authentication\BasicAuthentication.cs" />
+    <Compile Include="Http\Authentication\DigestAuthentication.cs" />
+    <Compile Include="Http\Authentication\IAuthenticationProvider.cs" />
+    <Compile Include="Http\Authentication\IAuthenticator.cs" />
+    <Compile Include="Http\Authentication\IUserProvider.cs" />
+    <Compile Include="Http\BadRequestException.cs" />
+    <Compile Include="Http\ComponentAttribute.cs" />
+    <Compile Include="Http\ContentTypeHelper.cs" />
+    <Compile Include="Http\ErrorPageEventArgs.cs" />
+    <Compile Include="Http\ExceptionEventArgs.cs" />
+    <Compile Include="Http\Headers\AuthorizationHeader.cs" />
+    <Compile Include="Http\Headers\CacheControl.cs" />
+    <Compile Include="Http\Headers\ConnectionHeader.cs" />
+    <Compile Include="Http\Headers\ContentTypeHeader.cs" />
+    <Compile Include="Http\Headers\CookieHeader.cs" />
+    <Compile Include="Http\Headers\DateHeader.cs" />
+    <Compile Include="Http\Headers\HeaderCollection.cs" />
+    <Compile Include="Http\Headers\HeaderFactory.cs" />
+    <Compile Include="Http\Headers\HeaderParameterCollection.cs" />
+    <Compile Include="Http\Headers\IHeader.cs" />
+    <Compile Include="Http\Headers\IHeaderCollection.cs" />
+    <Compile Include="Http\Headers\NumericHeader.cs" />
+    <Compile Include="Http\Headers\Parsers\AuthorizationParser.cs" />
+    <Compile Include="Http\Headers\Parsers\ConnectionParser.cs" />
+    <Compile Include="Http\Headers\Parsers\ContentTypeParser.cs" />
+    <Compile Include="Http\Headers\Parsers\CookieParser.cs" />
+    <Compile Include="Http\Headers\Parsers\DateParser.cs" />
+    <Compile Include="Http\Headers\Parsers\IHeaderParser.cs" />
+    <Compile Include="Http\Headers\Parsers\NumericHeaderParser.cs" />
+    <Compile Include="Http\Headers\Parsers\ParserForAttribute.cs" />
+    <Compile Include="Http\Headers\Parsers\StringParser.cs" />
+    <Compile Include="Http\Headers\StringHeader.cs" />
+    <Compile Include="Http\HttpContext.cs" />
+    <Compile Include="Http\HttpException.cs" />
+    <Compile Include="Http\HttpFactory.cs" />
+    <Compile Include="Http\HttpFile.cs" />
+    <Compile Include="Http\HttpFileCollection.cs" />
+    <Compile Include="Http\HttpListener.cs" />
+    <Compile Include="Http\HttpMessages\FactoryRequestEventArgs.cs" />
+    <Compile Include="Http\HttpMessages\MessageFactory.cs" />
+    <Compile Include="Http\HttpMessages\MessageFactoryContext.cs" />
+    <Compile Include="Http\HttpMessages\Parser\BodyEventArgs.cs" />
+    <Compile Include="Http\HttpMessages\Parser\FactoryResponseEventArgs.cs" />
+    <Compile Include="Http\HttpMessages\Parser\HeaderEventArgs.cs" />
+    <Compile Include="Http\HttpMessages\Parser\HttpParser.cs" />
+    <Compile Include="Http\HttpMessages\Parser\ParserException.cs" />
+    <Compile Include="Http\HttpMessages\Parser\RequestEventArgs.cs" />
+    <Compile Include="Http\HttpMessages\Parser\RequestLineEventArgs.cs" />
+    <Compile Include="Http\HttpMessages\Parser\ResponseLineEventArgs.cs" />
+    <Compile Include="Http\HttpMessages\Request.cs" />
+    <Compile Include="Http\HttpMessages\RequestCookie.cs" />
+    <Compile Include="Http\HttpMessages\RequestCookiesCollection.cs" />
+    <Compile Include="Http\HttpMessages\Response.cs" />
+    <Compile Include="Http\HttpMessages\ResponseCookie.cs" />
+    <Compile Include="Http\HttpMessages\ResponseCookieCollection.cs" />
+    <Compile Include="Http\HttpMessages\ResponseWriter.cs" />
+    <Compile Include="Http\IHttpContext.cs" />
+    <Compile Include="Http\IHttpFactory.cs" />
+    <Compile Include="Http\IHttpListener.cs" />
+    <Compile Include="Http\IMessage.cs" />
+    <Compile Include="Http\InternalServerException.cs" />
+    <Compile Include="Http\IParameterCollection.cs" />
+    <Compile Include="Http\IRequest.cs" />
+    <Compile Include="Http\IResponse.cs" />
+    <Compile Include="Http\Method.cs" />
+    <Compile Include="Http\NotFoundException.cs" />
+    <Compile Include="Http\ParameterCollection.cs" />
+    <Compile Include="Http\RequestContext.cs" />
+    <Compile Include="Http\RequestEventArgs.cs" />
+    <Compile Include="Http\Routing\IRouter.cs" />
+    <Compile Include="Http\Routing\RegExRouter.cs" />
+    <Compile Include="Http\Routing\SimpleRouter.cs" />
+    <Compile Include="Http\SecureHttpContext.cs" />
+    <Compile Include="Http\SecureHttpListener.cs" />
+    <Compile Include="Http\Service\HttpService.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Http\Service\HttpUtility.cs" />
+    <Compile Include="Http\Service\IWebPage.cs" />
+    <Compile Include="Http\Service\RequestWorker.cs" />
+    <Compile Include="Http\Service\Template.cs" />
+    <Compile Include="Http\SocketFilterEventArgs.cs" />
+    <Compile Include="Http\Tools\BufferReader.cs" />
+    <Compile Include="Http\Tools\ITextReader.cs" />
+    <Compile Include="Http\Tools\ObjectPool.cs" />
+    <Compile Include="Http\Tools\StringReader.cs" />
+    <Compile Include="Http\Tools\UrlParser.cs" />
+    <Compile Include="Http\Transports\ClientCertificate.cs" />
+    <Compile Include="Http\Transports\ResusableNetworkStream.cs" />
+    <Compile Include="IAuthenticationGuard.cs" />
+    <Compile Include="IRPCExceptionHandler.cs" />
+    <Compile Include="MessageHeaders.cs" />
+    <Compile Include="MessageProperties.cs" />
+    <Compile Include="Net\BitWriter.cs" />
+    <Compile Include="Net\Channel\BitVector.cs" />
+    <Compile Include="Net\Channel\IReceiverChannel.cs" />
+    <Compile Include="Net\Channel\ISenderChannel.cs" />
+    <Compile Include="Net\Channel\ReliableOrderedReceiver.cs" />
+    <Compile Include="Net\Channel\ReliableSenderChannel.cs" />
+    <Compile Include="Net\Channel\ReliableSequencedReceiver.cs" />
+    <Compile Include="Net\Channel\ReliableUnorderedReceiver.cs" />
+    <Compile Include="Net\Channel\UnreliableSenderChannel.cs" />
+    <Compile Include="Net\Channel\UnreliableSequencedReceiver.cs" />
+    <Compile Include="Net\Channel\UnreliableUnorderedReceiver.cs" />
+    <Compile Include="Net\Encryption\AESEncryption.cs" />
+    <Compile Include="Net\Encryption\CryptoProviderBase.cs" />
+    <Compile Include="Net\Encryption\IMessageEncryption.cs" />
+    <Compile Include="Net\Encryption\TripleDESEncryption.cs" />
+    <Compile Include="Net\FragmentationHelper.cs" />
+    <Compile Include="Net\IClientServerBase.cs" />
+    <Compile Include="Net\INetClient.cs" />
+    <Compile Include="Net\INetServer.cs" />
+    <Compile Include="Net\Message\DeliveryMethod.cs" />
+    <Compile Include="Net\Message\IncomingMessage.cs" />
+    <Compile Include="Net\Message\MessageBuffer.cs" />
+    <Compile Include="Net\Message\MessageBuffer.Peek.cs" />
+    <Compile Include="Net\Message\MessageBuffer.Read.cs" />
+    <Compile Include="Net\Message\MessageBuffer.Read.Reflection.cs" />
+    <Compile Include="Net\Message\MessageBuffer.Write.cs" />
+    <Compile Include="Net\Message\MessageBuffer.Write.Reflection.cs" />
+    <Compile Include="Net\Message\MessageType.cs" />
+    <Compile Include="Net\Message\OutgoingMessage.cs" />
+    <Compile Include="Net\Message\StoredReliableMessage.cs" />
+    <Compile Include="Net\NetUtility.cs" />
+    <Compile Include="Net\NetworkException.cs" />
+    <Compile Include="Net\PeerConnection\Connection.cs" />
+    <Compile Include="Net\PeerConnection\Connection.Handshake.cs" />
+    <Compile Include="Net\PeerConnection\Connection.Latency.cs" />
+    <Compile Include="Net\PeerConnection\Connection.MTU.cs" />
+    <Compile Include="Net\PeerConnection\ConnectionStatistics.cs" />
+    <Compile Include="Net\PeerConnection\ConnectionStatus.cs" />
+    <Compile Include="Net\PeerConnection\NetClientPeer.cs" />
+    <Compile Include="Net\PeerConnection\NetServerPeer.cs" />
+    <Compile Include="Net\PeerConnection\NetTime.cs" />
+    <Compile Include="Net\PeerConnection\Peer.cs" />
+    <Compile Include="Net\PeerConnection\Peer.Discovery.cs" />
+    <Compile Include="Net\PeerConnection\Peer.Fragmentation.cs" />
+    <Compile Include="Net\PeerConnection\Peer.Internal.cs" />
+    <Compile Include="Net\PeerConnection\Peer.MessagePools.cs" />
+    <Compile Include="Net\PeerConnection\Peer.Send.cs" />
+    <Compile Include="Net\PeerConnection\PeerConfiguration.cs" />
+    <Compile Include="Net\PeerConnection\PeerStatistics.cs" />
+    <Compile Include="Net\PeerConnection\PeerStatus.cs" />
+    <Compile Include="Net\PeerConnection\UPnP.cs" />
+    <Compile Include="Net\ThreadSafeQueue.cs" />
+    <Compile Include="RestResult.cs" />
+    <Compile Include="RestService.cs" />
+    <Compile Include="IServiceMessageInspector.cs" />
+    <Compile Include="IChannelMessageInspector.cs" />
+    <Compile Include="RPCContext.cs" />
+    <Compile Include="RPCMessage.cs" />
+    <Compile Include="RPCCallbackChannel.cs" />
+    <Compile Include="RPCProxyHelper.cs" />
+    <Compile Include="RPCException.cs" />
+    <Compile Include="RPCChannel.cs" />
+    <Compile Include="RPCService.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="DictionarySerializable.cs" />
+    <Compile Include="Utility\Compression\LZMA\Common\InBuffer.cs" />
+    <Compile Include="Utility\Compression\LZMA\Common\OutBuffer.cs" />
+    <Compile Include="Utility\Compression\LZMA\DataErrorException.cs" />
+    <Compile Include="Utility\Compression\LZMA\ICoder.cs" />
+    <Compile Include="Utility\Compression\LZMA\InvalidParamException.cs" />
+    <Compile Include="Utility\Compression\LZMA\Lzma.cs" />
+    <Compile Include="Utility\Compression\LZMA\LzmaBase.cs" />
+    <Compile Include="Utility\Compression\LZMA\LzmaDecoder.cs" />
+    <Compile Include="Utility\Compression\LZMA\LzmaEncoder.cs" />
+    <Compile Include="Utility\Compression\LZMA\LZ\BinTree.cs" />
+    <Compile Include="Utility\Compression\LZMA\LZ\IMatchFinder.cs" />
+    <Compile Include="Utility\Compression\LZMA\LZ\InWindow.cs" />
+    <Compile Include="Utility\Compression\LZMA\LZ\OutWindow.cs" />
+    <Compile Include="Utility\Compression\LZMA\RangeCoder\RangeCoder.cs" />
+    <Compile Include="Utility\Compression\LZMA\RangeCoder\RangeCoderBit.cs" />
+    <Compile Include="Utility\Compression\LZMA\RangeCoder\RangeCoderBitTree.cs" />
+    <Compile Include="Utility\Compression\zlib\Adler32.cs" />
+    <Compile Include="Utility\Compression\zlib\Deflater.cs" />
+    <Compile Include="Utility\Compression\zlib\DeflaterConstants.cs" />
+    <Compile Include="Utility\Compression\zlib\DeflaterEngine.cs" />
+    <Compile Include="Utility\Compression\zlib\DeflaterHuffman.cs" />
+    <Compile Include="Utility\Compression\zlib\DeflaterOutputStream.cs" />
+    <Compile Include="Utility\Compression\zlib\DeflaterPending.cs" />
+    <Compile Include="Utility\Compression\zlib\Inflater.cs" />
+    <Compile Include="Utility\Compression\zlib\InflaterDynHeader.cs" />
+    <Compile Include="Utility\Compression\zlib\InflaterHuffmanTree.cs" />
+    <Compile Include="Utility\Compression\zlib\InflaterInputStream.cs" />
+    <Compile Include="Utility\Compression\zlib\OutputWindow.cs" />
+    <Compile Include="Utility\Compression\zlib\PendingBuffer.cs" />
+    <Compile Include="Utility\Compression\zlib\StreamManipulator.cs" />
+    <Compile Include="Utility\CRC.cs" />
+    <Compile Include="Utility\Cryptography\DiffieHellman\Agreement\DHBasicAgreement.cs" />
+    <Compile Include="Utility\Cryptography\DiffieHellman\AsymmetricCipherKeyPair.cs" />
+    <Compile Include="Utility\Cryptography\DiffieHellman\AsymmetricKeyParameter.cs" />
+    <Compile Include="Utility\Cryptography\DiffieHellman\BigInteger.cs" />
+    <Compile Include="Utility\Cryptography\DiffieHellman\BitOrder.cs" />
+    <Compile Include="Utility\Cryptography\DiffieHellman\CryptoAPIRandomGenerator.cs" />
+    <Compile Include="Utility\Cryptography\DiffieHellman\DigestRandomGenerator.cs" />
+    <Compile Include="Utility\Cryptography\DiffieHellman\Digests\GeneralDigest.cs" />
+    <Compile Include="Utility\Cryptography\DiffieHellman\Digests\IDigest.cs" />
+    <Compile Include="Utility\Cryptography\DiffieHellman\Digests\SHA1Digest.cs" />
+    <Compile Include="Utility\Cryptography\DiffieHellman\Digests\SHA256Digest.cs" />
+    <Compile Include="Utility\Cryptography\DiffieHellman\Generators\DHKeyGeneratorHelper.cs" />
+    <Compile Include="Utility\Cryptography\DiffieHellman\Generators\DHKeyPairGenerator.cs" />
+    <Compile Include="Utility\Cryptography\DiffieHellman\Generators\DHParametersGenerator.cs" />
+    <Compile Include="Utility\Cryptography\DiffieHellman\Generators\DHParametersHelper.cs" />
+    <Compile Include="Utility\Cryptography\DiffieHellman\IAsymmetricCipherKeyPairGenerator.cs" />
+    <Compile Include="Utility\Cryptography\DiffieHellman\IBasicAgreement.cs" />
+    <Compile Include="Utility\Cryptography\DiffieHellman\ICipherParameters.cs" />
+    <Compile Include="Utility\Cryptography\DiffieHellman\IRandomGenerator.cs" />
+    <Compile Include="Utility\Cryptography\DiffieHellman\KeyGenerationParameters.cs" />
+    <Compile Include="Utility\Cryptography\DiffieHellman\Parameters\DHKeyGenerationParameters.cs" />
+    <Compile Include="Utility\Cryptography\DiffieHellman\Parameters\DHKeyParameters.cs" />
+    <Compile Include="Utility\Cryptography\DiffieHellman\Parameters\DHParameters.cs" />
+    <Compile Include="Utility\Cryptography\DiffieHellman\Parameters\DHPrivateKeyParameters.cs" />
+    <Compile Include="Utility\Cryptography\DiffieHellman\Parameters\DHPublicKeyParameters.cs" />
+    <Compile Include="Utility\Cryptography\DiffieHellman\Parameters\DHValidationParameters.cs" />
+    <Compile Include="Utility\Cryptography\DiffieHellman\Parameters\ParametersWithRandom.cs" />
+    <Compile Include="Utility\Cryptography\DiffieHellman\SecureRandom.cs" />
+    <Compile Include="Utility\IFileLocator.cs" />
+    <Compile Include="Utility\LocalFileLocator.cs" />
+    <Compile Include="Utility\RPCLogger.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
