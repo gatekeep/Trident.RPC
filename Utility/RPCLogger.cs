@@ -39,6 +39,15 @@ namespace TridentFramework.RPC.Utility
         */
 
         /// <summary>
+        /// Static Initializer for the see <see cref="RPCLogger"/> class.
+        /// </summary>
+        static RPCLogger()
+        {
+            // setup a dummy logger
+            WriteLog = (string msg) => { return; };
+        }
+
+        /// <summary>
         /// Returns a HTML formatted string for the given exception.
         /// </summary>
         /// <param name="throwable"></param>
