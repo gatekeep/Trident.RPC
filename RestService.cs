@@ -484,8 +484,10 @@ namespace TridentFramework.RPC.Http
 
             // attempt to validate content type
             if (context.Request.ContentType != null)
-                if (context.Request.ContentType.Value != "application/json")
-                    throw new InvalidOperationException("Request must be a JSON request");
+            {
+                if ((context.Request.ContentType.Value != "application/json") && (context.Request.ContentType.Value != "multipart/form-data"))
+                    throw new InvalidOperationException("Request must be a JSON or form data request");
+            }
 
             UriTemplateMatch utm = null;
 

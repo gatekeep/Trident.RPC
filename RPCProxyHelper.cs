@@ -631,6 +631,7 @@ namespace TridentFramework.RPC
         /// <returns></returns>
         public string PrepareRESTResult(MethodInfo methodInfo, object ret, List<Tuple<string, Type>> outTypes, object[] outs)
         {
+            bool wrappedType = false;
             RestResult<string> result = new RestResult<string>();
             JObject json = (JObject)JsonObject.JTokenFromObject(null, result, typeof(RestResult<string>), false);
             if (json["data"] != null)
@@ -648,10 +649,8 @@ namespace TridentFramework.RPC
                     dataJson.Add(JsonObject.JTokenFromObject(methodInfo.Name + RPC_MSG_RSP_SUFFIX, ret, methodInfo.ReturnType, false));
                 else
                 {
+                    wrappedType = true;
                     JObject retJson = (JObject)JsonObject.JTokenFromObject(null, ret, methodInfo.ReturnType, false);
-                    if (retJson["data"] == null)
-                        throw new InvalidOperationException("Method return derives from IRestResult but does not have data property?");
-
                     foreach (JProperty prop in retJson.Properties())
                         dataJson.Add(prop.Name, prop.Value);
                 }
@@ -667,7 +666,10 @@ namespace TridentFramework.RPC
                 dataJson.Add(JsonObject.JTokenFromObject(typeName, obj, paramType, false));
             }
 
-            json.Add("data", dataJson);
+            if (!wrappedType)
+                json.Add("data", dataJson);
+            else
+                json = dataJson;
 
             return json.ToString();
         }
@@ -1050,7 +1052,10 @@ namespace TridentFramework.RPC
 
             // get the raw input data
             using (var reader = new StreamReader(httpContext.Request.Body, httpContext.Request.Encoding))
-                json = JObject.Parse(reader.ReadToEnd());
+            {
+                string raw = reader.ReadToEnd();
+                json = JObject.Parse(raw);
+            }
 
             // process method parameters
             outIdx = new List<int>();
@@ -1062,7 +1067,31 @@ namespace TridentFramework.RPC
                 if (!paramType.IsByRef)
                 {
                     if (json[pinfo.Name] == null)
-                        throw new InvalidOperationException(pinfo.Name + " was expected, but not found");
+                    {
+                        // try to treat entire body as the the input object
+                        if (parameters.Length == 1)
+                        {
+                            try
+                            {
+                                args[i] = JsonObject.ObjectFromJToken(json, paramType, false);
+                            }
+                            catch (Exception)
+                            {
+                                // create boxed type -- we couldn't deserialize
+                                if (paramType.IsValueType)
+                                    args[i] = Activator.CreateInstance(paramType);
+                                else
+                                {
+                                    if (Nullable.GetUnderlyingType(paramType) != null)
+                                        args[i] = null;
+                                    // ?? -- here be dragons -- if we can't create a boxed type via activation -- and the type is
+                                    // not nullable what do we do?
+                                }
+                            }
+                        }
+                        else
+                            throw new InvalidOperationException(pinfo.Name + " was expected, but not found");
+                    }
 
                     try
                     {
@@ -1204,7 +1233,7 @@ namespace TridentFramework.RPC
                                 {
                                     // do a quick sanity check and make sure for "GET" like calls we have parameters
                                     int paramCount = parameters.Length;
-                                    if ((parameters.Length > 0) && (httpQueryTemplate.QueryParameters.Count == 0))
+                                    if ((parameters.Length > 0) && (httpQueryTemplate.QueryParameters.Count == 0 && httpQueryTemplate.BoundVariables.Count == 0))
                                         throw new InvalidOperationException(httpContext.Request.Uri.ToString() + " expected some parameters but none were supplied");
 
                                     ProcessGetParameters(context, parameters, ref args, out outIdx, out outTypes);
@@ -1213,8 +1242,18 @@ namespace TridentFramework.RPC
 
                             case Method.Post:
                             case Method.Put:
-                            case Method.Delete: // ? - techincally DELETE is NOT supposed to accept a body
                                 ProcessPostParameters(context, parameters, ref args, out outIdx, out outTypes);
+                                break;
+
+                            case Method.Delete: // ? - techincally DELETE is NOT supposed to accept a body
+                                {
+                                    // do a quick sanity check and make sure for "GET" like calls we have parameters
+                                    int paramCount = parameters.Length;
+                                    if ((parameters.Length > 0) && (httpQueryTemplate.QueryParameters.Count > 0 && httpQueryTemplate.BoundVariables.Count > 0))
+                                        ProcessGetParameters(context, parameters, ref args, out outIdx, out outTypes);
+                                    else
+                                        ProcessPostParameters(context, parameters, ref args, out outIdx, out outTypes);
+                                }
                                 break;
 
                             case Method.Options:
