@@ -68,6 +68,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="EnableCrossOriginResourceBehavior.cs" />
     <Compile Include="Remoting\ChannelProxy.cs" />
     <Compile Include="Http\BodyDecoders\DecodedData.cs" />
     <Compile Include="Http\BodyDecoders\HttpMultiPart.cs" />
@@ -88,6 +89,8 @@
     <Compile Include="RestMethodAttribute.cs" />
     <Compile Include="RPCContractAttribute.cs" />
     <Compile Include="RPCMethodAttribute.cs" />
+    <Compile Include="RPCServiceExceptionHandler.cs" />
+    <Compile Include="TraceServiceInspector.cs" />
     <Compile Include="UriTemplate\UriTemplate.cs" />
     <Compile Include="UriTemplate\UriTemplateCompoundPathSegment.cs" />
     <Compile Include="UriTemplate\UriTemplateHelpers.cs" />
