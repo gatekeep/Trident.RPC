@@ -1,4 +1,4 @@
-﻿/**
+﻿/*
  * Copyright (c) 2008-2020 Bryan Biedenkapp., All Rights Reserved.
  * MIT Open Source. Use is subject to license terms.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
@@ -228,6 +228,7 @@ namespace TridentFramework.RPC.Net
         /// </summary>
         /// <param name="raw"></param>
         /// <param name="transferOptions"></param>
+        /// <param name="seqCh"></param>
         public virtual void Send(byte[] raw, DataTransferOptions transferOptions = DataTransferOptions.Reliable, int seqCh = 1)
         {
             if (raw == null)
@@ -275,6 +276,7 @@ namespace TridentFramework.RPC.Net
         /// <param name="raw"></param>
         /// <param name="excludeGuid"></param>
         /// <param name="transferOptions"></param>
+        /// <param name="seqCh"></param>
         public virtual void SendTo(long id, byte[] raw, bool excludeGuid = false, DataTransferOptions transferOptions = DataTransferOptions.Reliable, int seqCh = 1)
         {
             if (raw == null)

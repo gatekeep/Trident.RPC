@@ -1,4 +1,4 @@
-﻿/**
+﻿/*
  * Copyright (c) 2008-2020 Bryan Biedenkapp., All Rights Reserved.
  * MIT Open Source. Use is subject to license terms.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
@@ -349,6 +349,7 @@ namespace TridentFramework.RPC
         ///
         /// </summary>
         /// <param name="json"></param>
+        /// <param name="faultProperty"></param>
         /// <param name="throwEx"></param>
         /// <param name="ex"></param>
         /// <returns></returns>

@@ -1,4 +1,4 @@
-﻿/**
+﻿/*
  * Copyright (c) 2008-2020 Bryan Biedenkapp., All Rights Reserved.
  * MIT Open Source. Use is subject to license terms.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
@@ -185,6 +185,7 @@ namespace TridentFramework.RPC.Net.PeerConnection
         /// </summary>
         /// <param name="numBytes">Number of bytes</param>
         /// <param name="numMessages">Number of messages</param>
+        /// <param name="numFragments">Number of fragments</param>
 #if DEBUG
 
         internal void PacketReceived(int numBytes, int numMessages, int numFragments)

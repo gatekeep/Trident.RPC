@@ -1,4 +1,4 @@
-﻿/**
+﻿/*
  * Copyright (c) 2008-2020 Bryan Biedenkapp., All Rights Reserved.
  * MIT Open Source. Use is subject to license terms.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
@@ -37,7 +37,7 @@ namespace TridentFramework.RPC.Net.Channel
         */
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="UnreliableUnorderedReciever"/> class.
+        /// Initializes a new instance of the <see cref="UnreliableUnorderedReceiver"/> class.
         /// </summary>
         /// <param name="connection">Connection channel belongs to</param>
         public UnreliableUnorderedReceiver(Connection connection)

@@ -1,4 +1,4 @@
-﻿/**
+﻿/*
  * Copyright (c) 2008-2020 Bryan Biedenkapp., All Rights Reserved.
  * MIT Open Source. Use is subject to license terms.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
@@ -68,7 +68,6 @@ namespace TridentFramework.RPC.Http.Authentication
         /// Create a response that can be sent in the WWW-Authenticate header.
         /// </summary>
         /// <param name="realm">Realm that the user should authenticate in</param>
-        /// <param name="options">Not used by basic authentication</param>
         /// <returns>A WWW-Authenticate header.</returns>
         /// <exception cref="ArgumentNullException">Argument is <c>null</c>.</exception>
         public IHeader CreateChallenge(string realm)

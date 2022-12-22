@@ -1,18 +1,7 @@
-/**
+/*
  * Copyright (c) 2008-2020 Bryan Biedenkapp., All Rights Reserved.
  * MIT Open Source. Use is subject to license terms.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
- */
-/*
- * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including 
- * without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject 
- * to the following conditions:
- * 
- * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN 
- * NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
- * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 //
 // Based on code from the SharpZipLib project. (https://github.com/icsharpcode/SharpZipLib.git)
@@ -158,15 +147,15 @@ namespace TridentFramework.Compression.zlib
             {
                 int numSymbols = freqs.Length;
 
-                /**
+                /*
                  * heap is a priority queue, sorted by frequency, least frequent
-				 * nodes first.  The heap is a binary tree, with the property, that
-				 * the parent node is smaller than both child nodes.  This assures
-				 * that the smallest node is the first parent.
-				 *
-				 * The binary tree is encoded in an array:  0 is root node and
-				 * the nodes 2*n+1, 2*n+2 are the child nodes of node n.
-				 */
+                 * nodes first.  The heap is a binary tree, with the property, that
+                 * the parent node is smaller than both child nodes.  This assures
+                 * that the smallest node is the first parent.
+                 *
+                 * The binary tree is encoded in an array:  0 is root node and
+                 * the nodes 2*n+1, 2*n+2 are the child nodes of node n.
+                 */
                 int[] heap = new int[numSymbols];
                 int heapLen = 0;
                 int maxCode = 0;
@@ -189,12 +178,12 @@ namespace TridentFramework.Compression.zlib
                     }
                 }
 
-                /**
+                /*
                  * We could encode a single literal with 0 bits but then we
-				 * don't see the literals.  Therefore we force at least two
-				 * literals to avoid this case.  We don't care about order in
-				 * this case, both literals get a 1 bit code.
-				 */
+                 * don't see the literals.  Therefore we force at least two
+                 * literals to avoid this case.  We don't care about order in
+                 * this case, both literals get a 1 bit code.
+                 */
                 while (heapLen < 2)
                 {
                     int node = maxCode < 2 ? ++maxCode : 0;
@@ -216,10 +205,10 @@ namespace TridentFramework.Compression.zlib
                     heap[i] = i;
                 }
 
-                /**
+                /*
                  * Construct the Huffman tree by repeatedly combining the least two
-				 * frequent nodes.
-				 */
+                 * frequent nodes.
+                 */
                 do
                 {
                     int first = heap[0];
@@ -239,10 +228,10 @@ namespace TridentFramework.Compression.zlib
                         path = path * 2 + 1;
                     }
 
-                    /**
+                    /*
                      * Now propagate the last element down along path.  Normally
-					 * it shouldn't go too deep.
-					 */
+                     * it shouldn't go too deep.
+                     */
                     int lastVal = values[last];
                     while ((path = ppos) > 0 && values[heap[ppos = (path - 1) / 2]] > lastVal)
                     {
@@ -340,7 +329,7 @@ namespace TridentFramework.Compression.zlib
             /// <summary>
             /// Check that all frequencies are zero
             /// </summary>
-            /// <exception cref="SharpZipBaseException">
+            /// <exception cref="Exception">
             /// At least one frequency is non-zero
             /// </exception>
             public void CheckEmpty()
@@ -519,22 +508,22 @@ namespace TridentFramework.Compression.zlib
                     } while (overflow > 0 && incrBitLen < maxLength - 1);
                 } while (overflow > 0);
 
-                /**
+                /*
                  * We may have overshot above.  Move some nodes from maxLength to
-				 * maxLength-1 in that case.
-				 */
+                 * maxLength-1 in that case.
+                 */
                 bl_counts[maxLength - 1] += overflow;
                 bl_counts[maxLength - 2] -= overflow;
 
-                /**
+                /*
                  * Now recompute all bit lengths, scanning in increasing
-				 * frequency.  It is simpler to reconstruct all lengths instead of
-				 * fixing only the wrong ones. This idea is taken from 'ar'
-				 * written by Haruhiko Okumura.
-				 *
-				 * The nodes were inserted with decreasing frequency into the childs
-				 * array.
-				 */
+                 * frequency.  It is simpler to reconstruct all lengths instead of
+                 * fixing only the wrong ones. This idea is taken from 'ar'
+                 * written by Haruhiko Okumura.
+                 *
+                 * The nodes were inserted with decreasing frequency into the childs
+                 * array.
+                 */
                 int nodePtr = 2 * numLeafs;
                 for (int bits = maxLength; bits != 0; bits--)
                 {

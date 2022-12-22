@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright (c) 2008-2020 Bryan Biedenkapp., All Rights Reserved.
  * MIT Open Source. Use is subject to license terms.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
@@ -177,7 +177,7 @@ namespace TridentFramework.Cryptography.DiffieHellman.Digests
         /// </summary>
 		private void InitHS()
         {
-            /**
+            /*
              * SHA-256 initial hash value
              * The first 32 bits of the fractional parts of the square roots
              * of the first eight prime numbers

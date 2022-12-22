@@ -1,4 +1,4 @@
-﻿/**
+﻿/*
  * Copyright (c) 2008-2020 Bryan Biedenkapp., All Rights Reserved.
  * MIT Open Source. Use is subject to license terms.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
@@ -115,6 +115,7 @@ namespace TridentFramework.RPC
         /// Initializes a new instance of the <see cref="RPCChannel"/> class.
         /// </summary>
         /// <param name="remoteUri"></param>
+        /// <param name="peerConfiguration"></param>
         protected RPCChannel(Uri remoteUri, PeerConfiguration peerConfiguration) : base(remoteUri, peerConfiguration)
         {
             this.remoteUri = remoteUri;

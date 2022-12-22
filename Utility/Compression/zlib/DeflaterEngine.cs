@@ -1,18 +1,7 @@
-/**
+/*
  * Copyright (c) 2008-2020 Bryan Biedenkapp., All Rights Reserved.
  * MIT Open Source. Use is subject to license terms.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
- */
-/*
- * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including 
- * without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject 
- * to the following conditions:
- * 
- * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN 
- * NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
- * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 //
 // Based on code from the SharpZipLib project. (https://github.com/icsharpcode/SharpZipLib.git)
@@ -266,17 +255,17 @@ namespace TridentFramework.Compression.zlib
         /// </summary>
         public void FillWindow()
         {
-            /**
+            /*
              * If the window is almost full and there is insufficient lookahead,
-			 * move the upper half to the lower one to make room in the upper half.
-			 */
+             * move the upper half to the lower one to make room in the upper half.
+             */
             if (strstart >= DeflaterConstants.WSIZE + DeflaterConstants.MAX_DIST)
                 SlideWindow();
 
-            /**
+            /*
              * If there is not enough lookahead, but still some input left,
-			 * read in the input
-			 */
+             * read in the input
+             */
             if (lookahead < DeflaterConstants.MIN_LOOKAHEAD && inputOff < inputEnd)
             {
                 int more = 2 * DeflaterConstants.WSIZE - lookahead - strstart;
@@ -383,10 +372,10 @@ namespace TridentFramework.Compression.zlib
 
             int end = offset + count;
 
-            /**
+            /*
              * We want to throw an ArrayIndexOutOfBoundsException early.  The
-			 * check is very tricky: it also handles integer wrap around.
-			 */
+             * check is very tricky: it also handles integer wrap around.
+             */
             if ((offset > end) || (end > buffer.Length))
                 throw new ArgumentOutOfRangeException(nameof(count));
 
@@ -471,11 +460,11 @@ namespace TridentFramework.Compression.zlib
 
                 if (strstart > 2 * DeflaterConstants.WSIZE - DeflaterConstants.MIN_LOOKAHEAD)
                 {
-                    /**
+                    /*
                      * slide window, as FindLongestMatch needs this.
-					 * This should only happen when flushing and the window
-					 * is almost full.
-					 */
+                     * This should only happen when flushing and the window
+                     * is almost full.
+                     */
                     SlideWindow();
                 }
 
@@ -555,11 +544,11 @@ namespace TridentFramework.Compression.zlib
 
                 if (strstart >= 2 * DeflaterConstants.WSIZE - DeflaterConstants.MIN_LOOKAHEAD)
                 {
-                    /**
+                    /*
                      * slide window, as FindLongestMatch needs this.
-					 * This should only happen when flushing and the window
-					 * is almost full.
-					 */
+                     * This should only happen when flushing and the window
+                     * is almost full.
+                     */
                     SlideWindow();
                 }
 
@@ -742,11 +731,11 @@ namespace TridentFramework.Compression.zlib
 
                 if (window[scan] == window[match])
                 {
-                    /**
+                    /*
                      * We check for insufficient lookahead only every 8th comparison;
-					 * the 256th check will be made at strstart + 258 unless lookahead is
-					 * exhausted first.
-					 */
+                     * the 256th check will be made at strstart + 258 unless lookahead is
+                     * exhausted first.
+                     */
                     do
                     {
                         if (scan == scanMax)

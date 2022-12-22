@@ -1,4 +1,4 @@
-﻿/**
+﻿/*
  * Copyright (c) 2008-2020 Bryan Biedenkapp., All Rights Reserved.
  * MIT Open Source. Use is subject to license terms.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
@@ -218,7 +218,6 @@ namespace TridentFramework.RPC
         /// Internal helper to send a JSON message body to a particular connection.
         /// </summary>
         /// <param name="message"></param>
-        /// <param name="soapEnvelope"></param>
         private void SendMessageBodyTo(RPCMessage message)
         {
             if (message.MessageType != RPCMessageType.Json_RPC)

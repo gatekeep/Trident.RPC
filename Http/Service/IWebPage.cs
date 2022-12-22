@@ -1,4 +1,4 @@
-﻿/**
+﻿/*
  * Copyright (c) 2008-2020 Bryan Biedenkapp., All Rights Reserved.
  * MIT Open Source. Use is subject to license terms.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
@@ -122,6 +122,7 @@ namespace TridentFramework.RPC.Http.Service
         /// Responds with a single string as the page result.
         /// </summary>
         /// <param name="str"></param>
+        /// <param name="headers"></param>
         protected void RespondWithString(string str, Dictionary<string, string> headers = null)
         {
             worker.RespondWithString(context, str, headers);

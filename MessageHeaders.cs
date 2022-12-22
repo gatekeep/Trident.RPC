@@ -1,4 +1,4 @@
-﻿/**
+﻿/*
  * Copyright (c) 2008-2020 Bryan Biedenkapp., All Rights Reserved.
  * MIT Open Source. Use is subject to license terms.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
@@ -73,7 +73,7 @@ namespace TridentFramework.RPC
         */
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="StringHeader"/> class.
+        /// Initializes a new instance of the <see cref="MessageHeader"/> class.
         /// </summary>
         /// <param name="name">The name.</param>
         /// <param name="value">The value.</param>
@@ -166,7 +166,7 @@ namespace TridentFramework.RPC
         /// <param name="name">Header name</param>
         /// <param name="value">Header value</param>
         /// <remarks>
-        /// Will try to parse the header and create a <see cref="IHeader"/> object.
+        /// Will try to parse the header and create a <see cref="IMessageHeader"/> object.
         /// </remarks>
         /// <exception cref="FormatException">Header value is not correctly formatted.</exception>
         /// <exception cref="ArgumentNullException"><c>name</c> or <c>value</c> is <c>null</c>.</exception>
@@ -188,7 +188,7 @@ namespace TridentFramework.RPC
         /// <param name="name">Header name</param>
         /// <param name="value">Header value</param>
         /// <remarks>
-        /// Will try to parse the header and create a <see cref="IHeader"/> object.
+        /// Will try to parse the header and create a <see cref="IMessageHeader"/> object.
         /// </remarks>
         /// <exception cref="ArgumentNullException"><c>name</c> or <c>value</c> is <c>null</c>.</exception>
         public void Add(string name, IMessageHeader value)

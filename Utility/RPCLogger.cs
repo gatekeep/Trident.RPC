@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright (c) 2008-2020 Bryan Biedenkapp., All Rights Reserved.
  * MIT Open Source. Use is subject to license terms.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
@@ -141,7 +141,6 @@ namespace TridentFramework.RPC.Utility
         /// Writes a trace message w/ calling function information.
         /// </summary>
         /// <param name="message">Message to print to debug window</param>
-        /// <param name="myTraceFilter"></param>
         /// <param name="frame"></param>
         /// <param name="dropToTrace"></param>
         /// <param name="dropToConsole"></param>
@@ -208,7 +207,6 @@ namespace TridentFramework.RPC.Utility
         /// <param name="message"></param>
         /// <param name="buffer"></param>
         /// <param name="maxLength"></param>
-        /// <param name="myTraceFilter"></param>
         /// <param name="startOffset"></param>
         /// <param name="dropToTrace"></param>
         /// <param name="dropToConsole"></param>

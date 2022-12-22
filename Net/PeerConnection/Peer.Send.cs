@@ -1,4 +1,4 @@
-﻿/**
+﻿/*
  * Copyright (c) 2008-2020 Bryan Biedenkapp., All Rights Reserved.
  * MIT Open Source. Use is subject to license terms.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
@@ -96,7 +96,7 @@ namespace TridentFramework.RPC.Net.PeerConnection
         /// <summary>
         /// Helper to compress the given message.
         /// </summary>
-        /// <param name="recipient"></param>
+        /// <param name="msg"></param>
         public void CompressMessage(OutgoingMessage msg)
         {
             byte messageType = (byte)msg.MessageType;

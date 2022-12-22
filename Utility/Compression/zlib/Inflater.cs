@@ -1,18 +1,7 @@
-/**
+/*
  * Copyright (c) 2008-2020 Bryan Biedenkapp., All Rights Reserved.
  * MIT Open Source. Use is subject to license terms.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
- */
-/*
- * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including 
- * without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject 
- * to the following conditions:
- * 
- * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN 
- * NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
- * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 //
 // Based on code from the SharpZipLib project. (https://github.com/icsharpcode/SharpZipLib.git)
@@ -446,7 +435,7 @@ namespace TridentFramework.Compression.zlib
         /// <exception cref="System.InvalidOperationException">
         /// No dictionary is needed.
         /// </exception>
-        /// <exception cref="SharpZipBaseException">
+        /// <exception cref="Exception">
         /// The adler checksum for the buffer is invalid
         /// </exception>
         public void SetDictionary(byte[] buffer, int index, int count)
@@ -513,7 +502,7 @@ namespace TridentFramework.Compression.zlib
         /// <returns>
         /// false if more input is needed, or if finished.
         /// </returns>
-        /// <exception cref="SharpZipBaseException">
+        /// <exception cref="Exception">
         /// if deflated stream is invalid.
         /// </exception>
         private bool Decode()
@@ -637,7 +626,7 @@ namespace TridentFramework.Compression.zlib
         /// <returns>
         /// false if more input is needed.
         /// </returns>
-        /// <exception cref="SharpZipBaseException">
+        /// <exception cref="Exception">
         /// If checksum doesn't match.
         /// </exception>
         private bool DecodeChksum()
@@ -685,7 +674,7 @@ namespace TridentFramework.Compression.zlib
         /// <returns>
         /// False if more input is needed.
         /// </returns>
-        /// <exception cref="SharpZipBaseException">
+        /// <exception cref="Exception">
         /// The header is invalid.
         /// </exception>
         private bool DecodeHeader()
@@ -704,11 +693,11 @@ namespace TridentFramework.Compression.zlib
                 throw new Exception("Compression Method unknown");
 
             /* Maximum size of the backwards window in bits.
-			* We currently ignore this, but we could use it to make the
-			* inflater window more space efficient. On the other hand the
-			* full window (15 bits) is needed most times, anyway.
-			int max_wbits = ((header & 0x7000) >> 12) + 8;
-			*/
+            * We currently ignore this, but we could use it to make the
+            * inflater window more space efficient. On the other hand the
+            * full window (15 bits) is needed most times, anyway.
+            int max_wbits = ((header & 0x7000) >> 12) + 8;
+            */
 
             if ((header & 0x0020) == 0)
                 mode = DECODE_BLOCKS;
@@ -727,7 +716,7 @@ namespace TridentFramework.Compression.zlib
         /// false if more input is needed, true if output window is
         /// full or the current block ends.
         /// </returns>
-        /// <exception cref="SharpZipBaseException">
+        /// <exception cref="Exception">
         /// if deflated stream is invalid.
         /// </exception>
         private bool DecodeHuffman()

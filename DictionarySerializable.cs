@@ -1,4 +1,4 @@
-﻿/**
+﻿/*
  * Copyright (c) 2008-2020 Bryan Biedenkapp., All Rights Reserved.
  * MIT Open Source. Use is subject to license terms.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
@@ -27,7 +27,7 @@ using System.Xml.Schema;
 namespace TridentFramework.RPC
 {
     /// <summary>
-    /// Helper class used to contain the data in an <see cref="XmlDictionary{TKey, TValue}"/>
+    /// Helper class used to contain the data in an <see cref="DataItem{TKey, TValue}"/>
     /// </summary>
     /// <typeparam name="TKey">Type of the Key</typeparam>
     /// <typeparam name="TValue">Type of the Value</typeparam>
@@ -97,7 +97,7 @@ namespace TridentFramework.RPC
         }
 
         /// <summary>
-        /// Gets the number of key/value pairs contained in the <see cref="XmlDictionary{TKey, TValue}"/>
+        /// Gets the number of key/value pairs contained in the <see cref="DictionarySerializable{TKey, TValue}"/>
         /// </summary>
         public int Count
         {

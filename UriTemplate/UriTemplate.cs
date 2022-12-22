@@ -1,4 +1,4 @@
-﻿/**
+﻿/*
  * Copyright (c) 2008-2020 Bryan Biedenkapp., All Rights Reserved.
  * MIT Open Source. Use is subject to license terms.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
@@ -1249,6 +1249,14 @@ namespace TridentFramework.RPC
         {
             return BindByName(baseAddress, parameters, false);
         }
+
+        /// <summary>
+        /// Creates a new URI from the template and the collection of parameters.
+        /// </summary>
+        /// <param name="baseAddress">The base address.</param>
+        /// <param name="parameters">The parameter values.</param>
+        /// <param name="omitDefaults"></param>
+        /// <returns>A URI.</returns>
         public Uri BindByName(Uri baseAddress, NameValueCollection parameters, bool omitDefaults)
         {
             if (baseAddress == null)

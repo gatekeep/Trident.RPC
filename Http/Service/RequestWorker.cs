@@ -1,4 +1,4 @@
-﻿/**
+﻿/*
  * Copyright (c) 2008-2020 Bryan Biedenkapp., All Rights Reserved.
  * MIT Open Source. Use is subject to license terms.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
@@ -611,8 +611,10 @@ namespace TridentFramework.RPC.Http.Service
         /// <summary>
         /// Helper function to display an HTML page contained inside a string builder.
         /// </summary>
+        /// <param name="context"></param>
         /// <param name="str">String to respond with</param>
         /// <param name="headers">Headers to append to response</param>
+        /// <param name="statusCode"></param>
         /// <param name="contentType"></param>
         public void RespondWithString(IHttpContext context, string str, Dictionary<string, string> headers = null,
             HttpStatusCode statusCode = HttpStatusCode.OK, string contentType = null)

@@ -1,4 +1,4 @@
-﻿/**
+﻿/*
  * Copyright (c) 2008-2020 Bryan Biedenkapp., All Rights Reserved.
  * MIT Open Source. Use is subject to license terms.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
@@ -38,7 +38,7 @@ namespace TridentFramework.RPC.Remoting
         */
 
         /// <summary>
-        /// Gets or sets the fully qualified type name of the server object in a <see cref="ObjRef"/>.
+        /// Gets or sets the fully qualified type name of the server object.
         /// </summary>
         string IRemotingTypeInfo.TypeName
         {
@@ -51,7 +51,7 @@ namespace TridentFramework.RPC.Remoting
         */
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ChannelProxy"/> class.
+        /// Initializes a new instance of the <see cref="ChannelProxy{TObject}"/> class.
         /// </summary>
         public ChannelProxy()
         {
@@ -59,7 +59,7 @@ namespace TridentFramework.RPC.Remoting
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ChannelProxy"/> class.
+        /// Initializes a new instance of the <see cref="ChannelProxy{TObject}"/> class.
         /// </summary>
         /// <param name="interfaceType"></param>
         /// <param name="channel"></param>

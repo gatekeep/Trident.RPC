@@ -1,4 +1,4 @@
-﻿/**
+﻿/*
  * Copyright (c) 2008-2020 Bryan Biedenkapp., All Rights Reserved.
  * MIT Open Source. Use is subject to license terms.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
@@ -523,6 +523,7 @@ namespace TridentFramework.RPC.Net.PeerConnection
         /// Create a connection to a remote endpoint
         /// </summary>
         /// <param name="host">Host to connect to</param>
+        /// <param name="port">Port to connect to</param>
         /// <returns></returns>
         public Connection Connect(string host, int port)
         {
