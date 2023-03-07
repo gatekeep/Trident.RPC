@@ -37,6 +37,7 @@ namespace TridentFramework.RPC.Http.HttpMessages
     /// </summary>
     internal class Request : IRequest, IDisposable
     {
+        private const int MEMORY_MAX_SIZE = 67108864;
         private readonly HeaderCollection headers;
         private NumericHeader contentLength = new NumericHeader("Content-Length", 0);
         private RequestCookieCollection cookies;
@@ -179,11 +180,12 @@ namespace TridentFramework.RPC.Http.HttpMessages
             {
                 contentLength = value;
 
-                if (contentLength.Value <= 2000000)
+                if (contentLength.Value <= MEMORY_MAX_SIZE)
                     return;
 
-                bodyFileName = Path.GetTempFileName();
-                Body = new FileStream(bodyFileName, FileMode.CreateNew);
+                if (bodyFileName == null)
+                    bodyFileName = Path.GetTempFileName();
+                Body = new FileStream(bodyFileName, FileMode.Create);
             }
         }
 
