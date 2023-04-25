@@ -93,7 +93,10 @@ namespace TridentFramework.RPC
             }
 
             object deserializedObj = null;
-            DataContractJsonSerializer serializer = new DataContractJsonSerializer(objType);
+            DataContractJsonSerializer serializer = new DataContractJsonSerializer(objType, new DataContractJsonSerializerSettings()
+            {
+                IgnoreExtensionDataObject = true // this will actually also ignore unknowns (like incorrect data types)
+            });
             try
             {
                 using (MemoryStream strm = new MemoryStream())
