@@ -20,6 +20,8 @@ using System.IO;
 using System.Runtime.Serialization.Json;
 using System.Text;
 
+using TridentFramework.RPC.Utility;
+
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
@@ -106,8 +108,9 @@ namespace TridentFramework.RPC
                     }
                 }
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                RPCLogger.StackTrace(e, false);
                 deserializedObj = token.ToObject(objType);
             }
             return deserializedObj;

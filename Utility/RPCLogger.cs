@@ -34,6 +34,11 @@ namespace TridentFramework.RPC.Utility
         /// </summary>
         public static Action<string> WriteLog { get; set; } = null;
 
+        /// <summary>
+        /// Gets or sets a delegate to also write logs to.
+        /// </summary>
+        public static Action<string> WriteErrorCB { get; set; } = null;
+
         /*
         ** Methods
         */
@@ -45,6 +50,7 @@ namespace TridentFramework.RPC.Utility
         {
             // setup a dummy logger
             WriteLog = (string msg) => { return; };
+            WriteErrorCB = (string msg) => { return; };
         }
 
         /// <summary>
@@ -102,18 +108,18 @@ namespace TridentFramework.RPC.Utility
             Exception inner = throwable.InnerException;
 
             WriteError("caught an unrecoverable exception! " + msg);
-            WriteLog("---- TRACE SNIP ----");
-            WriteLog(throwable.Message + (inner != null ? " (Inner: " + inner.Message + ")" : ""));
-            WriteLog(throwable.GetType().ToString());
+            WriteErrorCB("---- TRACE SNIP ----");
+            WriteErrorCB(throwable.Message + (inner != null ? " (Inner: " + inner.Message + ")" : ""));
+            WriteErrorCB(throwable.GetType().ToString());
 
-            WriteLog("<" + mb.ReflectedType.Name + "::" + mb.Name + "(" + funcParams + ")>");
-            WriteLog(throwable.Source);
+            WriteErrorCB("<" + mb.ReflectedType.Name + "::" + mb.Name + "(" + funcParams + ")>");
+            WriteErrorCB(throwable.Source);
             foreach (string str in throwable.StackTrace.Split(new string[] { Environment.NewLine }, StringSplitOptions.None))
-                WriteLog(str);
+                WriteErrorCB(str);
             if (inner != null)
                 foreach (string str in throwable.StackTrace.Split(new string[] { Environment.NewLine }, StringSplitOptions.None))
-                    WriteLog("inner trace: " + str);
-            WriteLog("---- TRACE SNIP ----");
+                    WriteErrorCB("inner trace: " + str);
+            WriteErrorCB("---- TRACE SNIP ----");
 
             if (reThrow)
                 throw throwable;
@@ -125,7 +131,7 @@ namespace TridentFramework.RPC.Utility
         /// <param name='message'>Message to print</param>
         public static void WriteWarning(string message)
         {
-            WriteLog("WARN: " + message);
+            WriteErrorCB("WARN: " + message);
         }
 
         /// <summary>
@@ -134,7 +140,7 @@ namespace TridentFramework.RPC.Utility
         /// <param name='message'>Message to print</param>
         public static void WriteError(string message)
         {
-            WriteLog("ERROR: " + message);
+            WriteErrorCB("ERROR: " + message);
         }
 
         /// <summary>
