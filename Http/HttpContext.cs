@@ -285,7 +285,8 @@ namespace TridentFramework.RPC.Http
                 else
                     offset = 0;
 
-                Stream.BeginRead(buffer, offset, buffer.Length - offset, OnReceive, null);
+                if (Stream != null)
+                    Stream.BeginRead(buffer, offset, buffer.Length - offset, OnReceive, null);
             }
             catch (ParserException err)
             {
