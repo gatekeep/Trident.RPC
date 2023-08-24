@@ -209,7 +209,7 @@ namespace TridentFramework.RPC.Http
                 listener = new SecureHttpListener(addr, serviceUri.Port, cert);
             else
                 listener = HttpListener.Create(addr, serviceUri.Port);
-            listener.RequestReceived += (object sender, RequestEventArgs e) => { httpRequestWorker.ProcessRequest(listener, e.Context); };
+            listener.RequestReceived += (object sender, RequestEventArgs e) => { httpRequestWorker.ProcessRequest(listener, e, e.Context); };
 
             // start the request handler thread
             threadRunning = true;

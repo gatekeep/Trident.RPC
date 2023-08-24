@@ -645,6 +645,15 @@ namespace TridentFramework.RPC.Http
                 case ".mp3":
                     return "audio/mpeg";
 
+                case ".m4u":
+                    return "video/vnd.mpegurl";
+
+                case ".m4v":
+                    return "video/x-m4v";
+
+                case ".mp4":
+                    return "video/mp4";
+
                 case ".mpa":
                     return "audio/mpeg";
 
@@ -683,6 +692,9 @@ namespace TridentFramework.RPC.Http
 
                 case ".mv":
                     return "video/x-sgi-movie";
+
+                case ".mxu":
+                    return "video/vnd.mpegurl";
 
                 case ".my":
                     return "audio/make";

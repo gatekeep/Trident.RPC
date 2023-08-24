@@ -168,7 +168,7 @@ namespace TridentFramework.RPC.Http.Service
 
             // initialize the http listener
             listener = HttpListener.Create(IPAddress.Any, port);
-            listener.RequestReceived += (object sender, RequestEventArgs e) => { httpWorker.ProcessRequest(listener, e.Context); };
+            listener.RequestReceived += (object sender, RequestEventArgs e) => { httpWorker.ProcessRequest(listener, e, e.Context); };
 
             // start the request handler thread
             threadRunning = true;

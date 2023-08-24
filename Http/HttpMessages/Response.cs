@@ -34,7 +34,7 @@ namespace TridentFramework.RPC.Http.HttpMessages
     /// <summary>
     /// Create a HTTP response object.
     /// </summary>
-    internal class Response : IResponse
+    public class Response : IResponse
     {
         private readonly MemoryStream body = new MemoryStream();
         private readonly IHttpContext context;

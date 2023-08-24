@@ -74,7 +74,7 @@ namespace TridentFramework.RPC.Http
         /// <summary>
         /// Gets http factory for the current listener.
         /// </summary>
-        internal static IHttpFactory Current
+        public static IHttpFactory Current
         {
             get { return current; }
             set { current = value; }

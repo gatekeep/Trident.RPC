@@ -62,6 +62,15 @@ namespace TridentFramework.RPC.Http.Service
         /// </remarks>
         public AuthenticationProvider AuthenticationProvider { get; private set; }
 
+        /// <summary>
+        /// Gets or sets if the request have been handled.
+        /// </summary>
+        /// <remarks>
+        /// The library will not attempt to send the response object
+        /// back to the client if this property is set to <c>true</c>.
+        /// </remarks>
+        public bool IsHandled { get; set; }
+
         /*
         ** Events
         */
@@ -310,6 +319,8 @@ namespace TridentFramework.RPC.Http.Service
             AuthenticationProvider = new AuthenticationProvider();
 
             this.pages = new Dictionary<Uri, IWebPage>(10);
+
+            this.IsHandled = false;
         }
 
         /// <summary>
@@ -365,8 +376,9 @@ namespace TridentFramework.RPC.Http.Service
         /// This function handles processing the raw HTTP request.
         /// </summary>
         /// <param name="listener"></param>
+        /// <param name="args"></param>
         /// <param name="context"></param>
-        public void ProcessRequest(IHttpListener listener, IHttpContext context)
+        public void ProcessRequest(IHttpListener listener, RequestEventArgs args, IHttpContext context)
         {
             this.startTime = DateTime.Now;
 
@@ -394,8 +406,13 @@ namespace TridentFramework.RPC.Http.Service
 
                 // check if we're handling the page via event
                 if (OnProcessRequest != null)
+                {
                     if (OnProcessRequest(listener, context))
+                    {
+                        args.IsHandled = IsHandled;
                         return;
+                    }
+                }
 
                 // get the proper query params based on HTTP method
                 switch (context.Request.Method.ToUpper())
