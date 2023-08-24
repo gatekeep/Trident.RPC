@@ -189,6 +189,21 @@ namespace TridentFramework.RPC.Http.HttpMessages
             }
         }
 
+        /// <summary>
+        /// Gets the User-Agent header.
+        /// </summary>
+        public string UserAgent
+        {
+            get
+            {
+                var header = headers["User-Agent"] as StringHeader;
+                if (header != null)
+                    return header.Value;
+                else
+                    return "Unknown/1.0";
+            }
+        }
+
         /*
         ** Methods
         */

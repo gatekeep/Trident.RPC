@@ -305,6 +305,26 @@ namespace TridentFramework.RPC.Http
                     responseWriter.SendErrorPage(this, response, err);
                 }
 
+                // is this a socket exception of some sort?
+                if (err is IOException && err.InnerException != null)
+                {
+                    if (err.InnerException is SocketException)
+                    {
+                        SocketException se = (SocketException)err.InnerException;
+                        switch (se.SocketErrorCode)
+                        {
+                            case SocketError.ConnectionAborted:
+                                RPCLogger.WriteWarning($"HTTP connection was aborted by the remote application.");
+                                break;
+                            default:
+                                RPCLogger.StackTrace("Failed to read from stream: ", err, false);
+                                break;
+                        }
+                    }
+                    else
+                        RPCLogger.StackTrace("Failed to read from stream: ", err, false);
+                }
+
                 Close();
             }
         }

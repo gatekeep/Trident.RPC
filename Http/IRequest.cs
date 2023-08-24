@@ -87,6 +87,11 @@ namespace TridentFramework.RPC.Http
         /// </summary>
         Uri Uri { get; set; }
 
+        /// <summary>
+        /// Gets the User-Agent header.
+        /// </summary>
+        string UserAgent { get; }
+
         /*
         ** Methods
         */
