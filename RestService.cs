@@ -401,11 +401,20 @@ namespace TridentFramework.RPC.Http
                 ctxService = this;
             }
 
+            MethodBase ifaceMethodBase = proxyHelper.GetInheritanceMethod(methodName, interfaceType);
+            bool userEndpointHandler = false;
+            if (ifaceMethodBase != null)
+            {
+                UserEndpointHandlerAttribute userHandlerAttr = ifaceMethodBase.GetCustomAttribute<UserEndpointHandlerAttribute>();
+                if (userHandlerAttr != null)
+                    userEndpointHandler = true;
+            }
+
             // convert context headers into HTTP-type headers
             Dictionary<string, string> httpOutgoingHeaders = RPCMessage.BuildOutgoingHeaders(RPCContext.ctxOutgoingHeaders);
 
             UriTemplateMatch httpQueryTemplate = message.IncomingMessageProperties[RPCProxyHelper.RPC_MSG_PROP_HTTP_QUERY_TEMPLATE] as UriTemplateMatch;
-            if (httpQueryTemplate == null)
+            if (httpQueryTemplate == null && !userEndpointHandler)
             {
                 httpRequestWorker.RespondWithString(httpContext, string.Empty, httpOutgoingHeaders, HttpStatusCode.MethodNotAllowed, ContentTypeJson);
                 return; // ? - should we throw an exception?
@@ -423,7 +432,6 @@ namespace TridentFramework.RPC.Http
                 foreach (IServiceMessageInspector inspector in context.serviceMessageInspectors)
                     inspector.BeforeSendReply(context, ref message);
 
-                MethodBase ifaceMethodBase = proxyHelper.GetInheritanceMethod(methodName, interfaceType);
                 if (ifaceMethodBase != null)
                 {
                     UserEndpointHandlerAttribute userHandlerAttr = ifaceMethodBase.GetCustomAttribute<UserEndpointHandlerAttribute>();
@@ -510,6 +518,28 @@ namespace TridentFramework.RPC.Http
 
                             methodName = info.Name;
                             break;
+                        }
+                    }
+                }
+            }
+
+            // do we still have no method name?
+            if (methodName == string.Empty)
+            {
+                foreach (MethodInfo info in interfaceMethods)
+                {
+                    RestMethodAttribute restInvoke = info.GetCustomAttribute<RestMethodAttribute>();
+                    if (restInvoke != null)
+                    {
+                        if (restInvoke.Method == context.Request.Method)
+                        {
+                            // is this a user handler?
+                            UserEndpointHandlerAttribute userHandlerAttr = info.GetCustomAttribute<UserEndpointHandlerAttribute>();
+                            if (userHandlerAttr != null)
+                            {
+                                methodName = info.Name;
+                                break;
+                            }
                         }
                     }
                 }
