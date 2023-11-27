@@ -1,5 +1,5 @@
-﻿/*
- * Copyright (c) 2008-2020 Bryan Biedenkapp., All Rights Reserved.
+﻿/**
+ * Copyright (c) 2008-2023 Bryan Biedenkapp., All Rights Reserved.
  * MIT Open Source. Use is subject to license terms.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  */
@@ -148,6 +148,11 @@ namespace TridentFramework.RPC.Http.HttpMessages
         public ContentTypeHeader ContentType { get; set; }
 
         /// <summary>
+        /// Kind of content encodings in body accepted.
+        /// </summary>
+        public List<string> AcceptEncoding { get; }
+
+        /// <summary>
         /// Gets or sets encoding
         /// </summary>
         public Encoding Encoding
@@ -221,6 +226,8 @@ namespace TridentFramework.RPC.Http.HttpMessages
             HttpVersion = version;
             Encoding = Encoding.UTF8;
 
+            AcceptEncoding = new List<string>();
+
             // HttpFactory is not set during tests.
             HeaderFactory headerFactory = HttpFactory.Current == null
                                               ? new HeaderFactory()
@@ -270,6 +277,12 @@ namespace TridentFramework.RPC.Http.HttpMessages
                 string charset = ContentType.Parameters["charset"];
                 if (!string.IsNullOrEmpty(charset))
                     Encoding = Encoding.GetEncoding(charset);
+            }
+            if (lowerName == "accept-encoding")
+            {
+                var header = (StringHeader)value;
+                string[] values = header.Value.Replace(" ", string.Empty).Split(new char[] { ',' });
+                AcceptEncoding.AddRange(values);
             }
             if (lowerName == "cookie")
                 Cookies = ((CookieHeader)value).Cookies;

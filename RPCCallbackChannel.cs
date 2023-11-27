@@ -1,5 +1,5 @@
-﻿/*
- * Copyright (c) 2008-2020 Bryan Biedenkapp., All Rights Reserved.
+﻿/**
+ * Copyright (c) 2008-2023 Bryan Biedenkapp., All Rights Reserved.
  * MIT Open Source. Use is subject to license terms.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  */
@@ -25,6 +25,7 @@ using Newtonsoft.Json.Linq;
 using TridentFramework.RPC.Net;
 using TridentFramework.RPC.Net.Message;
 using TridentFramework.RPC.Remoting;
+
 using TridentFramework.RPC.Utility;
 
 namespace TridentFramework.RPC

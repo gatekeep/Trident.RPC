@@ -1,5 +1,5 @@
-﻿/*
- * Copyright (c) 2008-2020 Bryan Biedenkapp., All Rights Reserved.
+﻿/**
+ * Copyright (c) 2008-2023 Bryan Biedenkapp., All Rights Reserved.
  * MIT Open Source. Use is subject to license terms.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  */
@@ -402,6 +402,7 @@ namespace TridentFramework.RPC.Http
             }
 
             MethodBase ifaceMethodBase = proxyHelper.GetInheritanceMethod(methodName, interfaceType);
+            RestMethodAttribute restInvoke = ifaceMethodBase.GetCustomAttribute<RestMethodAttribute>();
             bool userEndpointHandler = false;
             if (ifaceMethodBase != null)
             {
@@ -458,7 +459,7 @@ namespace TridentFramework.RPC.Http
                     }
                     else
                         result = proxyHelper.PrepareRESTResult(methodInfo, ret, outTypes, outArgs);
-                    httpRequestWorker.RespondWithString(httpContext, result.ToString(), httpOutgoingHeaders, HttpStatusCode.OK, ContentTypeJson);
+                    httpRequestWorker.RespondWithString(httpContext, result.ToString(), httpOutgoingHeaders, HttpStatusCode.OK, ContentTypeJson, restInvoke.CompressResponse);
                 }
             }
         }

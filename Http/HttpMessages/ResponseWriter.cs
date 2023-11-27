@@ -1,5 +1,5 @@
-﻿/*
- * Copyright (c) 2008-2020 Bryan Biedenkapp., All Rights Reserved.
+﻿/**
+ * Copyright (c) 2008-2023 Bryan Biedenkapp., All Rights Reserved.
  * MIT Open Source. Use is subject to license terms.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  */
@@ -21,12 +21,18 @@
 //
 
 using System;
+#if DEBUG_PERF_TRACE
+using System.Diagnostics;
+#endif
 using System.IO;
+using System.IO.Compression;
 using System.Text;
 
 using TridentFramework.RPC.Http.Headers;
 
 using TridentFramework.RPC.Utility;
+
+using TridentFramework.Compression.zlib;
 
 namespace TridentFramework.RPC.Http.HttpMessages
 {
@@ -45,6 +51,8 @@ namespace TridentFramework.RPC.Http.HttpMessages
     /// </remarks>
     public class ResponseWriter
     {
+        private const int MEMORY_MAX_SIZE = 16777216;
+
         /*
         ** Events
         */
@@ -65,8 +73,63 @@ namespace TridentFramework.RPC.Http.HttpMessages
         /// <param name="response">The response.</param>
         public void Send(IHttpContext context, IResponse response)
         {
-            SendHeaders(context, response);
-            SendBody(context, response.Body);
+#if DEBUG_PERF_TRACE
+            Stopwatch sw = new Stopwatch();
+            sw.Start();
+#endif
+            bool closeResponseStream = false;
+            Stream body = null;
+            if (response.ContentEncoding != null)
+            {
+                if (response.Body.Length <= MEMORY_MAX_SIZE)
+                {
+                    closeResponseStream = true;
+                    response.Body.Flush();
+                    response.Body.Seek(0, SeekOrigin.Begin);
+
+                    // which encoding type are we using?
+                    switch (response.ContentEncoding.ToString().ToLowerInvariant())
+                    {
+                        case "gzip":
+                            {
+                                body = new MemoryStream();
+                                using (GZipStream compress = new GZipStream(body, CompressionMode.Compress, true))
+                                {
+                                    WriteBody(response.Body, compress);
+                                    compress.Flush();
+                                }
+                            }
+                            break;
+
+                        case "deflate":
+                            {
+                                body = new MemoryStream();
+                                using (DeflaterOutputStream compress = new DeflaterOutputStream(body, new Deflater(Deflater.DEFAULT_COMPRESSION)))
+                                {
+                                    compress.IsStreamOwner = false;
+                                    WriteBody(response.Body, compress);
+                                    compress.Flush();
+                                }
+                            }
+                            break;
+
+                        case "compress":
+                        case "br":
+                        default:
+                            RPCLogger.WriteWarning($"{response.ContentEncoding} is not a supported Content-Encoding; defaulting to none");
+                            response.ContentEncoding = null; // reset this to default to prevent headers from being sent
+                            break;
+                    }
+                }
+                else
+                    response.ContentEncoding = null; // reset this to default to prevent headers from being sent
+            }
+
+            if (body == null)
+                body = response.Body;
+
+            SendHeaders(context, response, body.Length);
+            SendBody(context, body);
 
             try
             {
@@ -79,6 +142,17 @@ namespace TridentFramework.RPC.Http.HttpMessages
             {
                 RPCLogger.StackTrace("Failed to flush context stream.", e);
             }
+
+#if DEBUG_PERF_TRACE
+            sw.Stop();
+            if (response.ContentEncoding != null)
+                Trace.WriteLine($"ResponseWriter::Send(), uri = {context.Request.Uri}, method = {context.Request.Method}, body length = {response.Body.Length}, length = {body.Length}, type = {response.ContentType}, encoding = {response.ContentEncoding}, elapsed = {sw.Elapsed}");
+            else
+                Trace.WriteLine($"ResponseWriter::Send(), uri = {context.Request.Uri}, method = {context.Request.Method}, length = {response.Body.Length}, type = {response.ContentType}, elapsed = {sw.Elapsed}");
+#endif
+
+            if (closeResponseStream)
+                body.Dispose();
         }
 
         /// <summary>
@@ -108,6 +182,27 @@ namespace TridentFramework.RPC.Http.HttpMessages
         }
 
         /// <summary>
+        /// Write a body to the given context stream.
+        /// </summary>
+        /// <param name="body">Body to send</param>
+        /// <param name="contextStream">Context stream.</param>
+        private void WriteBody(Stream body, Stream contextStream)
+        {
+            var buffer = new byte[4196];
+            int bytesRead = body.Read(buffer, 0, 4196);
+            while (bytesRead > 0)
+            {
+                if (contextStream != null)
+                {
+                    contextStream.Write(buffer, 0, bytesRead);
+                    bytesRead = body.Read(buffer, 0, 4196);
+                }
+                else
+                    bytesRead = 0;
+            }
+        }
+
+        /// <summary>
         /// Send a body to the client
         /// </summary>
         /// <param name="context">Context containing the stream to use.</param>
@@ -118,18 +213,8 @@ namespace TridentFramework.RPC.Http.HttpMessages
             {
                 body.Flush();
                 body.Seek(0, SeekOrigin.Begin);
-                var buffer = new byte[4196];
-                int bytesRead = body.Read(buffer, 0, 4196);
-                while (bytesRead > 0)
-                {
-                    if (context.Stream != null)
-                    {
-                        context.Stream.Write(buffer, 0, bytesRead);
-                        bytesRead = body.Read(buffer, 0, 4196);
-                    }
-                    else
-                        bytesRead = 0;
-                }
+
+                WriteBody(body, context.Stream);
             }
             catch (Exception e)
             {
@@ -140,9 +225,10 @@ namespace TridentFramework.RPC.Http.HttpMessages
         /// <summary>
         /// Send all headers to the client
         /// </summary>
-        /// <param name="response">Response containing call headers.</param>
         /// <param name="context">Content used to send headers.</param>
-        public void SendHeaders(IHttpContext context, IResponse response)
+        /// <param name="response">Response containing call headers.</param>
+        /// <param name="responseLength"></param>
+        public void SendHeaders(IHttpContext context, IResponse response, long responseLength)
         {
             var sb = new StringBuilder();
             sb.AppendFormat("{0} {1} {2}\r\n", response.HttpVersion, (int)response.Status, response.Reason);
@@ -152,7 +238,13 @@ namespace TridentFramework.RPC.Http.HttpMessages
 
             // go through all property headers.
             sb.AppendFormat("{0}: {1}\r\n", response.ContentType.Name, response.ContentType);
-            sb.AppendFormat("{0}: {1}\r\n", response.ContentLength.Name, response.ContentLength);
+            if (response.ContentEncoding != null)
+            {
+                sb.AppendFormat("{0}: {1}\r\n", response.ContentEncoding.Name, response.ContentEncoding);
+                sb.AppendFormat("{0}: {1}\r\n", response.ContentLength.Name, responseLength);
+            }
+            else
+                sb.AppendFormat("{0}: {1}\r\n", response.ContentLength.Name, response.ContentLength);
             sb.AppendFormat("{0}: {1}\r\n", response.Connection.Name, response.Connection);
 
             if (response.Cookies != null && response.Cookies.Count > 0)

@@ -1,5 +1,5 @@
-﻿/*
- * Copyright (c) 2008-2020 Bryan Biedenkapp., All Rights Reserved.
+﻿/**
+ * Copyright (c) 2008-2023 Bryan Biedenkapp., All Rights Reserved.
  * MIT Open Source. Use is subject to license terms.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  */
@@ -20,10 +20,10 @@ using System.IO;
 using System.Runtime.Serialization.Json;
 using System.Text;
 
-using TridentFramework.RPC.Utility;
-
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+
+using TridentFramework.RPC.Utility;
 
 namespace TridentFramework.RPC
 {

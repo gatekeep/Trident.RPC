@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Copyright (c) 2008-2023 Bryan Biedenkapp., All Rights Reserved.
  * MIT Open Source. Use is subject to license terms.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
@@ -20,24 +20,65 @@
 // Licensed under the Apache 2.0 License (http://opensource.org/licenses/Apache-2.0)
 //
 
-using System.Collections.Generic;
+using System;
 
 namespace TridentFramework.RPC.Http.Headers
 {
     /// <summary>
-    /// Collection of headers.
+    /// Content-Encoding
     /// </summary>
-    public interface IHeaderCollection : IEnumerable<IHeader>
+    public class ContentEncodingHeader : IHeader
     {
+        /// <summary>
+        /// Header name.
+        /// </summary>
+        public const string NAME = "Content-Encoding";
+
         /*
         ** Properties
         */
 
         /// <summary>
-        /// Gets a header
+        /// Gets content type.
         /// </summary>
-        /// <param name="name">header name.</param>
-        /// <returns>header if found; otherwise <c>null</c>.</returns>
-        IHeader this[string name] { get; }
-    } // public interface IHeaderCollection : IEnumerable<IHeader>
+        public string Value { get; set; }
+
+        /// <summary>
+        /// Gets header name
+        /// </summary>
+        public string Name
+        {
+            get { return NAME; }
+        }
+
+        /// <summary>
+        /// Gets Content-Encoding header as a string
+        /// </summary>
+        public string HeaderValue
+        {
+            get
+            {
+                return Value;
+            }
+        }
+
+        /*
+        ** Methods
+        */
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ContentEncodingHeader"/> class.
+        /// </summary>
+        /// <param name="contentEncoding">Encoding of the content.</param>
+        public ContentEncodingHeader(string contentEncoding)
+        {
+            Value = contentEncoding;
+        }
+
+        /// <inheritdoc />
+        public override string ToString()
+        {
+            return HeaderValue;
+        }
+    } // public class ContentEncodingHeader : IHeader
 } // namespace TridentFramework.RPC.Http.Headers

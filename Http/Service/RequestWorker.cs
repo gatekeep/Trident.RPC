@@ -1,5 +1,5 @@
-﻿/*
- * Copyright (c) 2008-2020 Bryan Biedenkapp., All Rights Reserved.
+﻿/**
+ * Copyright (c) 2008-2023 Bryan Biedenkapp., All Rights Reserved.
  * MIT Open Source. Use is subject to license terms.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  */
@@ -633,8 +633,9 @@ namespace TridentFramework.RPC.Http.Service
         /// <param name="headers">Headers to append to response</param>
         /// <param name="statusCode"></param>
         /// <param name="contentType"></param>
+        /// <param name="compress"></param>
         public void RespondWithString(IHttpContext context, string str, Dictionary<string, string> headers = null,
-            HttpStatusCode statusCode = HttpStatusCode.OK, string contentType = null)
+            HttpStatusCode statusCode = HttpStatusCode.OK, string contentType = null, bool compress = false)
         {
             if (context == null)
                 throw new InvalidOperationException("Cannot respond with no incoming HTTP context");
@@ -652,6 +653,14 @@ namespace TridentFramework.RPC.Http.Service
                 else
                     context.Response.ContentType.Value = contentType;
                 context.Response.ContentLength.Value = htmlBytes.Length;
+                if (compress)
+                {
+                    if (context.Request.AcceptEncoding != null)
+                    {
+                        if (context.Request.AcceptEncoding.Count > 0)
+                            context.Response.ContentEncoding = new ContentEncodingHeader(context.Request.AcceptEncoding[0]);
+                    }
+                }
 
                 RPCLogger.Trace("request " + context.Request.Uri.AbsoluteUri + ", method: " + context.Request.Method);
 

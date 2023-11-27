@@ -1,5 +1,5 @@
-﻿/*
- * Copyright (c) 2008-2020 Bryan Biedenkapp., All Rights Reserved.
+﻿/**
+ * Copyright (c) 2008-2023 Bryan Biedenkapp., All Rights Reserved.
  * MIT Open Source. Use is subject to license terms.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  */
@@ -21,6 +21,7 @@
 //
 
 using System;
+using System.Collections.Generic;
 
 using TridentFramework.RPC.Http.Headers;
 using TridentFramework.RPC.Http.HttpMessages;
@@ -91,6 +92,11 @@ namespace TridentFramework.RPC.Http
         /// Gets the User-Agent header.
         /// </summary>
         string UserAgent { get; }
+
+        /// <summary>
+        /// Kind of content encodings in body accepted.
+        /// </summary>
+        List<string> AcceptEncoding { get; }
 
         /*
         ** Methods

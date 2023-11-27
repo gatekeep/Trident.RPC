@@ -1,7 +1,18 @@
-/*
- * Copyright (c) 2008-2020 Bryan Biedenkapp., All Rights Reserved.
+/**
+ * Copyright (c) 2008-2023 Bryan Biedenkapp., All Rights Reserved.
  * MIT Open Source. Use is subject to license terms.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ */
+/*
+ * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including 
+ * without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject 
+ * to the following conditions:
+ * 
+ * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN 
+ * NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
+ * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 //
 // Based on code from the SharpZipLib project. (https://github.com/icsharpcode/SharpZipLib.git)
@@ -297,7 +308,7 @@ namespace TridentFramework.Compression.zlib
         /// Create an InflaterInputStream with the default decompressor
         /// and a default buffer size of 4KB.
         /// </summary>
-        /// <param name = "baseInputStream">
+        /// <param name="baseInputStream">
         /// The InputStream to read bytes from
         /// </param>
         public InflaterInputStream(Stream baseInputStream)
@@ -310,10 +321,10 @@ namespace TridentFramework.Compression.zlib
         /// Create an InflaterInputStream with the specified decompressor
         /// and a default buffer size of 4KB.
         /// </summary>
-        /// <param name = "baseInputStream">
+        /// <param name="baseInputStream">
         /// The source of input data
         /// </param>
-        /// <param name = "inf">
+        /// <param name="inf">
         /// The decompressor used to decompress data read from baseInputStream
         /// </param>
         public InflaterInputStream(Stream baseInputStream, Inflater inf)
@@ -326,13 +337,13 @@ namespace TridentFramework.Compression.zlib
         /// Create an InflaterInputStream with the specified decompressor
         /// and the specified buffer size.
         /// </summary>
-        /// <param name = "baseInputStream">
+        /// <param name="baseInputStream">
         /// The InputStream to read bytes from
         /// </param>
-        /// <param name = "inflater">
+        /// <param name="inflater">
         /// The decompressor to use
         /// </param>
-        /// <param name = "bufferSize">
+        /// <param name="bufferSize">
         /// Size of the buffer to use
         /// </param>
         public InflaterInputStream(Stream baseInputStream, Inflater inflater, int bufferSize)
@@ -395,7 +406,7 @@ namespace TridentFramework.Compression.zlib
         /// <summary>
         /// Skip specified number of bytes of uncompressed data
         /// </summary>
-        /// <param name ="count">
+        /// <param name="count">
         /// Number of bytes to skip
         /// </param>
         /// <returns>

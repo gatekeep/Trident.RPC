@@ -1,5 +1,5 @@
-﻿/*
- * Copyright (c) 2008-2020 Bryan Biedenkapp., All Rights Reserved.
+﻿/**
+ * Copyright (c) 2008-2023 Bryan Biedenkapp., All Rights Reserved.
  * MIT Open Source. Use is subject to license terms.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  */
@@ -114,6 +114,11 @@ namespace TridentFramework.RPC.Http.HttpMessages
         public ContentTypeHeader ContentType { get; set; }
 
         /// <summary>
+        /// Kind of content encoding in the body
+        /// </summary>
+        public ContentEncodingHeader ContentEncoding { get; set; }
+
+        /// <summary>
         /// Gets or sets encoding
         /// </summary>
         public Encoding Encoding
@@ -165,6 +170,7 @@ namespace TridentFramework.RPC.Http.HttpMessages
             Reason = reason;
             HttpVersion = version;
             ContentType = new ContentTypeHeader("text/html");
+            ContentEncoding = null;
             Encoding = Encoding.UTF8;
             headers = CreateHeaderCollection();
         }
@@ -182,6 +188,7 @@ namespace TridentFramework.RPC.Http.HttpMessages
             Reason = string.Empty;
             Status = HttpStatusCode.OK;
             ContentType = new ContentTypeHeader("text/html");
+            ContentEncoding = null;
             Encoding = request.Encoding;
             headers = CreateHeaderCollection();
         }
@@ -221,6 +228,8 @@ namespace TridentFramework.RPC.Http.HttpMessages
                 ContentLength = (NumericHeader)value;
             if (lowerName == "Content-Type")
                 ContentType = (ContentTypeHeader)value;
+            if (lowerName == "Content-Encoding")
+                ContentEncoding = (ContentEncodingHeader)value;
             if (lowerName == "Connection")
                 Connection = (ConnectionHeader)value;
 

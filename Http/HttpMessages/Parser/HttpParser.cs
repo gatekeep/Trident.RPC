@@ -1,5 +1,5 @@
-﻿/*
- * Copyright (c) 2008-2020 Bryan Biedenkapp., All Rights Reserved.
+﻿/**
+ * Copyright (c) 2008-2023 Bryan Biedenkapp., All Rights Reserved.
  * MIT Open Source. Use is subject to license terms.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  */
@@ -111,7 +111,7 @@ namespace TridentFramework.RPC.Http.HttpMessages.Parser
             if (reader.RemainingLength == 0)
                 return false;
 
-            // Got enough bytes to complete body.
+            // got enough bytes to complete body
             if (reader.RemainingLength >= bodyBytesLeft)
             {
                 OnBodyBytes(buffer, reader.Index, bodyBytesLeft);
@@ -121,7 +121,7 @@ namespace TridentFramework.RPC.Http.HttpMessages.Parser
                 return false;
             }
 
-            // eat remaining bytes.
+            // eat remaining bytes
             OnBodyBytes(buffer, reader.Index, reader.RemainingLength);
             bodyBytesLeft -= reader.RemainingLength;
             reader.Index = reader.Length; // place it in the end
@@ -134,16 +134,16 @@ namespace TridentFramework.RPC.Http.HttpMessages.Parser
         /// <returns></returns>
         private bool GetHeaderName()
         {
-            // empty line. body is begining.
+            // empty line -- body is beginning
             if (reader.Current == '\r' && (reader.Peek == '\n' || reader.Peek == '\0'))
             {
-                // Eat the line break
+                // eat the line break
                 if (reader.Peek == '\n')
                     reader.Consume('\r', '\n');
                 else
                     reader.Consume('\r', '\0');
 
-                // Don't have a body?
+                // don't have a body?
                 if (bodyBytesLeft == 0)
                 {
                     OnComplete();
@@ -172,7 +172,7 @@ namespace TridentFramework.RPC.Http.HttpMessages.Parser
         /// <exception cref="ParserException">Content length is not a number.</exception>
         private bool GetHeaderValue()
         {
-            // remove white spaces.
+            // remove white spaces
             reader.Consume(' ', '\t');
 
             // multi line or empty value?
@@ -196,7 +196,7 @@ namespace TridentFramework.RPC.Http.HttpMessages.Parser
                 // consume one whitespace
                 reader.Consume();
 
-                // and fetch the rest.
+                // and fetch the rest
                 return GetHeaderValue();
             }
 
@@ -305,12 +305,12 @@ namespace TridentFramework.RPC.Http.HttpMessages.Parser
         /// <exception cref="ParserException">Parsing failed.</exception>
         public int Parse(byte[] buffer, int offset, int count)
         {
-            RPCLogger.TraceHex("Parsing " + count + " bytes from offset " + offset + " using " + parserMethod.Method.Name, buffer, (count < 512) ? 512 : count);
+            //RPCLogger.TraceHex("Parsing " + count + " bytes from offset " + offset + " using " + parserMethod.Method.Name, buffer, (count < 512) ? 512 : count);
+            RPCLogger.Trace("Parsing " + count + " bytes from offset " + offset + " using " + parserMethod.Method.Name);
             this.buffer = buffer;
             reader.Assign(buffer, offset, count);
 
             while (parserMethod()) ;
-            //Messages.Trace("Switched parser method to " + parserMethod.Method.Name + " at index " + reader.Index);
 
             return reader.Index;
         }
@@ -347,7 +347,6 @@ namespace TridentFramework.RPC.Http.HttpMessages.Parser
         /// </summary>
         public void Reset()
         {
-            //_logger.Info("Resetting..");
             headerValue = null;
             headerName = string.Empty;
             bodyBytesLeft = 0;

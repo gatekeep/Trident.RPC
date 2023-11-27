@@ -1,5 +1,5 @@
-﻿/*
- * Copyright (c) 2008-2020 Bryan Biedenkapp., All Rights Reserved.
+﻿/**
+ * Copyright (c) 2008-2023 Bryan Biedenkapp., All Rights Reserved.
  * MIT Open Source. Use is subject to license terms.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  */
@@ -29,6 +29,8 @@ namespace TridentFramework.RPC
         private string method; // http verb
         private string uriTemplate; // Note: HttpTransferEndpointBehavior interprets uriTemplate as: null means 'no opinion', whereas string.Empty means relative path of ""
 
+        private bool compressResponse = false;
+
         /*
         ** Properties
         */
@@ -49,6 +51,15 @@ namespace TridentFramework.RPC
         {
             get => this.uriTemplate;
             set => this.uriTemplate = value;
+        }
+
+        /// <summary>
+        /// Flag indicating whether the response will be compressed if the client allows compressed encodings.
+        /// </summary>
+        public bool CompressResponse
+        {
+            get => this.compressResponse;
+            set => this.compressResponse = value;
         }
 
         /*

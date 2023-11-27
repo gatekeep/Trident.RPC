@@ -21,7 +21,6 @@
     <DefineConstants>TRACE;DEBUG</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Debug\TridentFramework.RPC.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -30,7 +29,6 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Release\TridentFramework.RPC.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(DynamicConstants)' != ''">
     <DefineConstants>$(DynamicConstants)</DefineConstants>
@@ -55,7 +53,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>packages\Newtonsoft.Json.13.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <HintPath>packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -70,7 +68,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="EnableCrossOriginResourceBehavior.cs" />
+    <Compile Include="Http\Headers\ContentEncodingHeader.cs" />
     <Compile Include="Remoting\ChannelProxy.cs" />
     <Compile Include="Http\BodyDecoders\DecodedData.cs" />
     <Compile Include="Http\BodyDecoders\HttpMultiPart.cs" />
@@ -91,8 +89,6 @@
     <Compile Include="RestMethodAttribute.cs" />
     <Compile Include="RPCContractAttribute.cs" />
     <Compile Include="RPCMethodAttribute.cs" />
-    <Compile Include="RPCServiceExceptionHandler.cs" />
-    <Compile Include="TraceServiceInspector.cs" />
     <Compile Include="UriTemplate\UriTemplate.cs" />
     <Compile Include="UriTemplate\UriTemplateCompoundPathSegment.cs" />
     <Compile Include="UriTemplate\UriTemplateHelpers.cs" />

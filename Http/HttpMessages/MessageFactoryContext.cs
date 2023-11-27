@@ -1,5 +1,5 @@
-/*
- * Copyright (c) 2008-2020 Bryan Biedenkapp., All Rights Reserved.
+/**
+ * Copyright (c) 2008-2023 Bryan Biedenkapp., All Rights Reserved.
  * MIT Open Source. Use is subject to license terms.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  */
@@ -21,6 +21,9 @@
 //
 
 using System;
+#if DEBUG_PERF_TRACE
+using System.Diagnostics;
+#endif
 using System.IO;
 using System.Net;
 
@@ -39,6 +42,9 @@ namespace TridentFramework.RPC.Http.HttpMessages
     /// </remarks>
     public class MessageFactoryContext : IDisposable
     {
+#if DEBUG_PERF_TRACE
+        private Stopwatch sw;
+#endif
         private readonly HeaderFactory factory;
         private readonly MessageFactory msgFactory;
         private readonly HttpParser parser;
@@ -91,7 +97,6 @@ namespace TridentFramework.RPC.Http.HttpMessages
         /// <summary>
         /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
         /// </summary>
-        /// <filterpriority>2</filterpriority>
         public void Dispose()
         {
             /* stub */
@@ -102,9 +107,13 @@ namespace TridentFramework.RPC.Http.HttpMessages
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-		private void OnBody(object sender, BodyEventArgs e)
+        private void OnBody(object sender, BodyEventArgs e)
         {
             message.Body.Write(e.Buffer, e.Offset, e.Count);
+#if DEBUG_PERF_TRACE
+            IRequest request = (IRequest)message;
+            Trace.WriteLine($"MessageFactoryContext::OnBody(), uri = {request.Uri}, method = {request.Method}, type = {request.ContentType}, length = {request.Body.Length}, elapsed = {sw.Elapsed}");
+#endif
         }
 
         /// <summary>
@@ -133,7 +142,13 @@ namespace TridentFramework.RPC.Http.HttpMessages
         {
             message.Body.Seek(0, SeekOrigin.Begin);
             if (message is IRequest)
+            {
                 RequestCompleted(this, new FactoryRequestEventArgs((IRequest)message));
+#if DEBUG_PERF_TRACE
+                IRequest request = (IRequest)message;
+                Trace.WriteLine($"MessageFactoryContext::OnMessageComplete(), uri = {request.Uri}, method = {request.Method}, type = {request.ContentType}, elapsed = {sw.Elapsed}");
+#endif
+            }
             else
                 ResponseCompleted(this, new FactoryResponseEventArgs((IResponse)message));
         }
@@ -143,10 +158,18 @@ namespace TridentFramework.RPC.Http.HttpMessages
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-		private void OnRequestLine(object sender, RequestLineEventArgs e)
+        private void OnRequestLine(object sender, RequestLineEventArgs e)
         {
+#if DEBUG_PERF_TRACE
+            sw = new Stopwatch();
+            sw.Start();
+#endif
             RPCLogger.Trace(e.Method + ": " + e.UriPath);
             message = msgFactory.CreateRequest(e.Method, e.UriPath, e.Version);
+#if DEBUG_PERF_TRACE
+            IRequest request = (IRequest)message;
+            Trace.WriteLine($"MessageFactoryContext::OnRequestLine(), uri = {request.Uri}, method = {request.Method}, elapsed = {sw.Elapsed}");
+#endif
         }
 
         /// <summary>
@@ -154,7 +177,7 @@ namespace TridentFramework.RPC.Http.HttpMessages
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-		private void OnResponseLine(object sender, ResponseLineEventArgs e)
+        private void OnResponseLine(object sender, ResponseLineEventArgs e)
         {
             RPCLogger.Trace(e.StatusCode + ": " + e.ReasonPhrase);
             message = msgFactory.CreateResponse(e.Version, e.StatusCode, e.ReasonPhrase);

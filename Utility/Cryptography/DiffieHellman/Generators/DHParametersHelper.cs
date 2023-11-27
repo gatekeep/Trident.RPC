@@ -1,5 +1,5 @@
-/*
- * Copyright (c) 2008-2020 Bryan Biedenkapp., All Rights Reserved.
+/**
+ * Copyright (c) 2008-2023 Bryan Biedenkapp., All Rights Reserved.
  * MIT Open Source. Use is subject to license terms.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  */
@@ -134,7 +134,7 @@ namespace TridentFramework.Cryptography.DiffieHellman.Generators
                     if (certainty > 2 && !q.RabinMillerTest(certainty - 2, random, true))
                         continue;
 
-                    /*
+                    /**
                      * Require a minimum weight of the NAF representation, since low-weight primes may be
                      * weak against a version of the number-field-sieve for the discrete-logarithm-problem.
                      *

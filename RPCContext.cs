@@ -1,5 +1,5 @@
-﻿/*
- * Copyright (c) 2008-2020 Bryan Biedenkapp., All Rights Reserved.
+﻿/**
+ * Copyright (c) 2008-2023 Bryan Biedenkapp., All Rights Reserved.
  * MIT Open Source. Use is subject to license terms.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  */
@@ -179,6 +179,22 @@ namespace TridentFramework.RPC
         /*
         ** Methods
         */
+
+        /// <summary>
+        /// Helper to generate a <see cref="RPCContext"/>.
+        /// </summary>
+        /// <param name="message"></param>
+        /// <returns></returns>
+        public static RPCContext CreateContext(RPCMessage message)
+        {
+            RPCContext ctx = new RPCContext();
+
+            ctxMessage = message;
+            ctxOutgoingHeaders = new MessageHeaders();
+            ctxOutgoingProperties = new MessageProperties();
+
+            return ctx;
+        }
 
         /// <summary>
         /// Internal helper to reset the state of the RPC context.
