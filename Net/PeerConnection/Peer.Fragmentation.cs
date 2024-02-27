@@ -95,7 +95,15 @@ namespace TridentFramework.RPC.Net.PeerConnection
                         CompressMessage(om);
                 }
                 else
+                {
+                    if (Configuration.EnableEncryption)
+                        EncryptMessage(om, recipient);
+
+                    if (Configuration.EnableCompression)
+                        CompressMessage(om);
+
                     om = msg;
+                }
 
                 // create fragmentation specifics
                 int totalBytes = om.LengthBytes;

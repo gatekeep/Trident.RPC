@@ -658,7 +658,20 @@ namespace TridentFramework.RPC.Http.Service
                     if (context.Request.AcceptEncoding != null)
                     {
                         if (context.Request.AcceptEncoding.Count > 0)
-                            context.Response.ContentEncoding = new ContentEncodingHeader(context.Request.AcceptEncoding[0]);
+                        {
+                            if (context.Request.AcceptEncoding.Contains("gzip"))
+                            {
+                                int idx = context.Request.AcceptEncoding.IndexOf("gzip");
+                                if (idx != -1)
+                                    context.Response.ContentEncoding = new ContentEncodingHeader(context.Request.AcceptEncoding[idx]);
+                            }
+                            else
+                            {
+                                int idx = context.Request.AcceptEncoding.IndexOf("deflate");
+                                if (idx != -1)
+                                    context.Response.ContentEncoding = new ContentEncodingHeader(context.Request.AcceptEncoding[idx]);
+                            }
+                        }
                     }
                 }
 
