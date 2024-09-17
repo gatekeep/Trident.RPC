@@ -436,6 +436,8 @@ namespace TridentFramework.RPC.Http
                 if (ifaceMethodBase != null)
                 {
                     UserEndpointHandlerAttribute userHandlerAttr = ifaceMethodBase.GetCustomAttribute<UserEndpointHandlerAttribute>();
+                    if (userHandlerAttr != null && context.Message == null)
+                        return;
                     if (userHandlerAttr != null && context.Message.MessageBody == null)
                         return;
                 }
