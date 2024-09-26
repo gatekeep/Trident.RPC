@@ -425,29 +425,41 @@ namespace TridentFramework.RPC.Net.PeerConnection
                 // do handshake heartbeats
                 if ((frameCounter % 3) == 0)
                 {
-                    foreach (var kvp in handshakes)
+                    try
                     {
-                        Connection conn = kvp.Value as Connection;
-#if DEBUG
-                        // sanity check
-                        if (kvp.Key != kvp.Key)
-                            RPCLogger.Trace("Sanity fail! Connection in handshake list under wrong key!");
-#endif
-                        conn.UnconnectedHeartbeat(now);
-                        if (conn.Status == ConnectionStatus.Connected || conn.Status == ConnectionStatus.Disconnected ||
-                            conn.Status == ConnectionStatus.ConnectedSecured)
+                        List<IPEndPoint> endPointsToRemove = new List<IPEndPoint>();
+                        lock (handshakes)
                         {
-#if DEBUG
-                            // sanity check
-                            if (conn.Status == ConnectionStatus.Disconnected && handshakes.ContainsKey(conn.RemoteEndpoint))
+                            foreach (var kvp in handshakes)
                             {
-                                RPCLogger.Trace("Sanity fail! Handshakes list contained disconnected connection!");
-                                handshakes.Remove(conn.RemoteEndpoint);
-                            }
+                                Connection conn = kvp.Value as Connection;
+#if DEBUG
+                                // sanity check
+                                if (kvp.Key != kvp.Key)
+                                    RPCLogger.Trace("Sanity fail! Connection in handshake list under wrong key!");
 #endif
-                            break; // collection has been modified
+                                conn.UnconnectedHeartbeat(now);
+                                if (conn.Status == ConnectionStatus.Connected || conn.Status == ConnectionStatus.Disconnected ||
+                                    conn.Status == ConnectionStatus.ConnectedSecured)
+                                {
+#if DEBUG
+                                    // sanity check
+                                    if (conn.Status == ConnectionStatus.Disconnected && handshakes.ContainsKey(conn.RemoteEndpoint))
+                                    {
+                                        RPCLogger.Trace("Sanity fail! Handshakes list contained disconnected connection!");
+                                        //handshakes.Remove(conn.RemoteEndpoint);
+                                        endPointsToRemove.Add(conn.RemoteEndpoint);
+                                    }
+#endif
+                                    break; // collection has been modified
+                                }
+                            }
                         }
+
+                        foreach (IPEndPoint remoteEndPoint in endPointsToRemove)
+                            handshakes.Remove(remoteEndPoint);
                     }
+                    catch (InvalidOperationException) { /* stub, this is not a good idea */ }
                 }
 
                 // update executeFlushSendQueue
